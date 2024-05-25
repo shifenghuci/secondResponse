@@ -96,6 +96,9 @@
             const inputsList = [pointOfInterest, preDeterminedQuestions];
             console.log(inputsList);
 
+            // Store predetermined questions in localStorage
+            localStorage.setItem('preDeterminedQuestions', preDeterminedQuestions);
+
             // Display the link
             const linkOutput = document.getElementById('linkOutput');
             linkOutput.innerHTML = `Link to survey: <a href="http://127.0.0.1:5500/survey.html">http://127.0.0.1:5500/survey.html</a>`;
