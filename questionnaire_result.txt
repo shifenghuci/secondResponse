@@ -1,0 +1,14 @@
+Q: Which flavor is your favourite?
+A: Vanilla.
+
+Q: What topping do you think go best with the flavor of your choice?
+A: Waffle.
+
+Q: What was your least favourite flavor
+A: Rocky Road.
+
+Q: Do you feel our chocolate syrup flavor was low quality?
+A. Yes
+
+Q: Would you recommend this place to a friend?
+A. Maybe

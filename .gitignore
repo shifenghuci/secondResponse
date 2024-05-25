@@ -1,3 +1,5 @@
 # This is to prevent github from commiting vrtual environment files
 
 .venv
+
+API_KEY
