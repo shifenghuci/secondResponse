@@ -47,12 +47,26 @@
             font-size: 16px;
             box-sizing: border-box;
         }
+        .submit-button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #E0E0D1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background-color: #D4D4C8;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Survey</h1>
         <div id="surveyQuestions"></div>
+        <button class="submit-button" id="submitButton">Submit</button>
     </div>
 
     <script>
@@ -81,6 +95,20 @@
             const surveyQuestionsDiv = document.getElementById('surveyQuestions');
             surveyQuestionsDiv.innerHTML = '<p>No questions available.</p>';
         }
+
+        document.getElementById('submitButton').addEventListener('click', () => {
+            const surveyQuestionsDiv = document.getElementById('surveyQuestions');
+            const questionElements = surveyQuestionsDiv.getElementsByClassName('survey-question');
+            const surveyResponses = {};
+
+            for (let i = 0; i < questionElements.length; i++) {
+                const questionText = questionElements[i].getElementsByTagName('label')[0].textContent;
+                const answer = questionElements[i].getElementsByTagName('textarea')[0].value;
+                surveyResponses[questionText] = answer;
+            }
+
+            console.log(surveyResponses); // You can change this to any action you want to perform with the responses
+        });
     </script>
 </body>
 </html>
