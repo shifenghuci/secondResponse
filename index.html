@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecondResponse Survey</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F9F9F9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #F4F4E8;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .input-box {
+            margin-bottom: 20px;
+        }
+        .input-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .input-box textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .submit-button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            background-color: #E0E0D1;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .submit-button:hover {
+            background-color: #D4D4C8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SecondResponse</h1>
+        <p>Create your surveys</p>
+        <div class="input-box">
+            <label for="pointOfInterest">Enter your point of interest</label>
+            <textarea id="pointOfInterest" name="pointOfInterest"></textarea>
+        </div>
+        <div class="input-box">
+            <label for="preDeterminedQuestions">Enter pre-determined questions, separate each question by new line</label>
+            <textarea id="preDeterminedQuestions" name="preDeterminedQuestions"></textarea>
+        </div>
+        <button class="submit-button" id="submitButton">Submit</button>
+    </div>
+
+    <script>
+        function saveInputs() {
+            const pointOfInterest = document.getElementById('pointOfInterest').value;
+            const preDeterminedQuestions = document.getElementById('preDeterminedQuestions').value;
+
+            if (!pointOfInterest || !preDeterminedQuestions) {
+                alert("Please fill in both fields before submitting.");
+                return;
+            }
+
+            const inputsList = [pointOfInterest, preDeterminedQuestions];
+            
+            console.log(inputsList);
+
+            return inputsList;
+        }
+
+        document.getElementById('submitButton').addEventListener('click', saveInputs);
+    </script>
+
+</body>
+</html>
