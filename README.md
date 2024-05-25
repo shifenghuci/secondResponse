@@ -13,3 +13,9 @@ Utilize context-based and prompt engineered LLM to ask automatic follow-up quest
 - [ ] Implement download feature
 - [ ] replace google form with local questionnaire
 - [ ] convert to interface on webapp
+
+
+## Environment setup
+! python -m venv .venv
+! pip install streamlit
+
