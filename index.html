@@ -60,6 +60,11 @@
         .submit-button:hover {
             background-color: #D4D4C8;
         }
+        .link-output {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -71,10 +76,11 @@
             <textarea id="pointOfInterest" name="pointOfInterest"></textarea>
         </div>
         <div class="input-box">
-            <label for="preDeterminedQuestions">Enter pre-determined questions, separate each question by new line</label>
+            <label for="preDeterminedQuestions">Enter pre-determined questions</label>
             <textarea id="preDeterminedQuestions" name="preDeterminedQuestions"></textarea>
         </div>
         <button class="submit-button" id="submitButton">Submit</button>
+        <div class="link-output" id="linkOutput"></div>
     </div>
 
     <script>
@@ -88,10 +94,11 @@
             }
 
             const inputsList = [pointOfInterest, preDeterminedQuestions];
-            
             console.log(inputsList);
 
-            return inputsList;
+            // Display the link
+            const linkOutput = document.getElementById('linkOutput');
+            linkOutput.innerHTML = `Link to survey: <a href="http://127.0.0.1:5500/survey.html">http://127.0.0.1:5500/survey.html</a>`;
         }
 
         document.getElementById('submitButton').addEventListener('click', saveInputs);
