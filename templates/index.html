@@ -5,8 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SecondResponse Survey</title>
     <style>
+        @keyframes containerAnimation {
+            0% {
+                transform: translatey(0)
+            }
+            50% {
+                transform: translatey(-20px)
+            }
+            to {
+                transform: translatey(0)
+            }
+        }
+
+        @keyframes blinkFrames {
+            0%, 100% { content: url('static/openEye.png'); }
+            50% { content: url('static/halfEye.png'); }
+            90% { content: url('static/closedEye.png'); }
+        }
+
+        p {
+            font-family: 'Courier New', Courier, monospace
+        }
+        
+        .blinking-eye {
+            position: absolute;
+            top: -18%;
+            left: -9%;
+            width: 80%;
+            max-width: 200px;
+            animation: blinkFrames 2s steps(3) infinite;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             background-color: #4c20a9;
             display: flex;
             justify-content: center;
@@ -23,6 +54,7 @@
             width: 90%;
             max-width: 600px;
             box-sizing: border-box;
+            animation: containerAnimation 4s ease-in-out infinite;
         }
         h1 {
             text-align: center;
@@ -72,9 +104,10 @@
 </head>
 <body>
     <div class="container">
+        <img id ="blinking-eye" src="static/openEye.png" alt="Blinking Eye" class="blinking-eye">
         <h1>SecondResponse</h1>
         <p>Create your surveys</p>
-    <form id = create_form_data> <!-- Change action to the route you want to handle the form submission -->
+        <form id="create_form_data">
             <div class="input-box">
                 <label for="pointOfInterest">Enter your point of interest</label>
                 <textarea id="pointOfInterest" name="pointOfInterest"></textarea>
@@ -85,37 +118,33 @@
             </div>
             <button class="submit-button" id="submitButton">Submit</button>
             <div class="link-output" id="linkOutput"></div>
-    </form>
+        </form>
     </div>
 
     <script>
         document.getElementById('create_form_data').addEventListener('submit', function(event) {
-            event.preventDefault()
+            event.preventDefault();
             const pointOfInterest = document.getElementById('pointOfInterest').value;
             const preDeterminedQuestions = document.getElementById('preDeterminedQuestions').value;
 
-            const formData = new FormData;
-            formData.append('pointOfInterest',pointOfInterest)
-            //formData.append('preDeterminedQuestions',preDeterminedQuestions)
-
+            const formData = new FormData();
+            formData.append('pointOfInterest', pointOfInterest);
+            formData.append('preDeterminedQuestions', preDeterminedQuestions);
 
             if (!pointOfInterest || !preDeterminedQuestions) {
                 alert("Please fill in both fields before submitting.");
                 return;
             }
 
-            const inputsList = [pointOfInterest, preDeterminedQuestions];
-            console.log(inputsList);
-
             // Store predetermined questions in localStorage
-            localStorage.setItem('pointOfInterest',pointOfInterest)
+            localStorage.setItem('pointOfInterest', pointOfInterest);
             localStorage.setItem('preDeterminedQuestions', preDeterminedQuestions);
 
             // Display the link
             const linkOutput = document.getElementById('linkOutput');
             linkOutput.innerHTML = `Link to survey: <a href="/survey">http://127.0.0.1:5500/survey.html</a>`;
 
-            fetch ('/submit_index', {
+            fetch('/submit_index', {
                 method: 'POST',
                 body: formData
             })
@@ -125,8 +154,8 @@
             })
             .catch(error => console.error('Error:', error));
         });
-
     </script>
 
 </body>
 </html>
+
