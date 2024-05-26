@@ -9,7 +9,7 @@
             font-family: Arial, sans-serif;
             background-color: #F9F9F9;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
@@ -23,6 +23,7 @@
             width: 90%;
             max-width: 600px;
             box-sizing: border-box;
+            margin-bottom: 20px;
         }
         h1 {
             text-align: center;
@@ -31,6 +32,7 @@
         }
         .survey-question {
             margin-bottom: 20px;
+            width: 100%;
         }
         .survey-question label {
             display: block;
@@ -60,17 +62,76 @@
         .submit-button:hover {
             background-color: #D4D4C8;
         }
+        .additional-questions-container {
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        .additional-question {
+            background-color: #F4F4E8;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container" id="mainSurveyContainer">
         <h1>Survey</h1>
         <div id="surveyQuestions"></div>
         <button class="submit-button" id="submitButton">Submit</button>
     </div>
-
+    <div class="additional-questions-container" id="additionalQuestionsContainer">
+        <!-- Additional questions will be added here -->
+    </div>
     <script>
-        // Retrieve the predetermined questions from localStorage
+        function addSurveyQuestion(questionText = '') {
+            const additionalQuestionsContainer = document.getElementById('additionalQuestionsContainer');
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'survey-question additional-question';
+
+            const label = document.createElement('label');
+            label.textContent = questionText ? questionText : `Question ${additionalQuestionsContainer.children.length + 1}:`;
+
+            const textarea = document.createElement('textarea');
+            textarea.name = `additionalQuestion${additionalQuestionsContainer.children.length + 1}`;
+
+            const submitButton = document.createElement('button');
+            submitButton.className = 'submit-button';
+            submitButton.textContent = 'Submit Additional Question';
+            submitButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const answer = textarea.value;
+                console.log(`Additional Question ${additionalQuestionsContainer.children.length}: ${answer}`);
+                fetch('/submit_ai_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ answer })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                    submitButton.style.display = 'none';
+                    addSurveyQuestion(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('There was an error submitting the survey. Please try again.');
+                });
+            });
+
+            questionDiv.appendChild(label);
+            questionDiv.appendChild(textarea);
+            questionDiv.appendChild(submitButton);
+            additionalQuestionsContainer.appendChild(questionDiv);
+        }
+
         const preDeterminedQuestions = localStorage.getItem('preDeterminedQuestions');
         if (preDeterminedQuestions) {
             const questionsArray = preDeterminedQuestions.split('\n').filter(question => question.trim() !== '');
@@ -116,9 +177,14 @@
             })
             .then(response => response.json())
             .then(data => {
+                addSurveyQuestion(data);
                 console.log('Success:', data);
+                document.getElementById('submitButton').style.display = 'none'; // Hide the button
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting the survey. Please try again.');
+            });
 
             console.log(surveyResponses); // You can change this to any action you want to perform with the responses
         });
