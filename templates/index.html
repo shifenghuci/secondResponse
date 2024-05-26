@@ -112,7 +112,7 @@
             const linkOutput = document.getElementById('linkOutput');
             linkOutput.innerHTML = `Link to survey: <a href="/survey">http://127.0.0.1:5500/survey.html</a>`;
 
-            fetch ('/submit', {
+            fetch ('/submit_index', {
                 method: 'POST',
                 body: formData
             })
