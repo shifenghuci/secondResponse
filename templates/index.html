@@ -71,22 +71,30 @@
     <div class="container">
         <h1>SecondResponse</h1>
         <p>Create your surveys</p>
-        <div class="input-box">
-            <label for="pointOfInterest">Enter your point of interest</label>
-            <textarea id="pointOfInterest" name="pointOfInterest"></textarea>
-        </div>
-        <div class="input-box">
-            <label for="preDeterminedQuestions">Enter pre-determined questions</label>
-            <textarea id="preDeterminedQuestions" name="preDeterminedQuestions"></textarea>
-        </div>
-        <button class="submit-button" id="submitButton">Submit</button>
-        <div class="link-output" id="linkOutput"></div>
+    <form id = create_form_data> <!-- Change action to the route you want to handle the form submission -->
+            <div class="input-box">
+                <label for="pointOfInterest">Enter your point of interest</label>
+                <textarea id="pointOfInterest" name="pointOfInterest"></textarea>
+            </div>
+            <div class="input-box">
+                <label for="preDeterminedQuestions">Enter pre-determined questions</label>
+                <textarea id="preDeterminedQuestions" name="preDeterminedQuestions"></textarea>
+            </div>
+            <button class="submit-button" id="submitButton">Submit</button>
+            <div class="link-output" id="linkOutput"></div>
+    </form>
     </div>
 
     <script>
-        function saveInputs() {
+        document.getElementById('create_form_data').addEventListener('submit', function(event) {
+            event.preventDefault()
             const pointOfInterest = document.getElementById('pointOfInterest').value;
             const preDeterminedQuestions = document.getElementById('preDeterminedQuestions').value;
+
+            const formData = new FormData;
+            formData.append('pointOfInterest',pointOfInterest)
+            formData.append('preDeterminedQuestions',preDeterminedQuestions)
+
 
             if (!pointOfInterest || !preDeterminedQuestions) {
                 alert("Please fill in both fields before submitting.");
@@ -97,14 +105,24 @@
             console.log(inputsList);
 
             // Store predetermined questions in localStorage
+            localStorage.setItem('pointOfInterest',pointOfInterest)
             localStorage.setItem('preDeterminedQuestions', preDeterminedQuestions);
 
             // Display the link
             const linkOutput = document.getElementById('linkOutput');
             linkOutput.innerHTML = `Link to survey: <a href="http://127.0.0.1:5500/survey.html">http://127.0.0.1:5500/survey.html</a>`;
-        }
 
-        document.getElementById('submitButton').addEventListener('click', saveInputs);
+            fetch ('http://localhost:8000/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('response').innerText = data;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
     </script>
 
 </body>
