@@ -110,9 +110,9 @@
 
             // Display the link
             const linkOutput = document.getElementById('linkOutput');
-            linkOutput.innerHTML = `Link to survey: <a href="http://127.0.0.1:5500/survey.html">http://127.0.0.1:5500/survey.html</a>`;
+            linkOutput.innerHTML = `Link to survey: <a href="/survey">http://127.0.0.1:5500/survey.html</a>`;
 
-            fetch ('http://localhost:8000/', {
+            fetch ('/submit', {
                 method: 'POST',
                 body: formData
             })
